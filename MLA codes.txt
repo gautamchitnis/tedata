@@ -1,0 +1,178 @@
+********************************k means clustering  Assignment 4**********************************
+
+import numpy as np
+
+
+import matplotlib.pyplot as plt
+
+
+import pandas as pd
+dataset = pd.read_csv('C:/Users/admin/Downloads/Mall_Customers.csv')
+X = dataset.iloc[:, [3, 4]].values
+
+
+from sklearn.cluster import KMeans
+
+
+
+for i in range(1, 11):
+
+    kmeans = KMeans(n_clusters = i, init = 'k-means++', random_state = 42)
+
+    kmeans.fit(X)
+
+
+
+kmeans = KMeans(n_clusters = 5, init = 'k-means++', random_state = 42)
+
+y_kmeans = kmeans.fit_predict(X)
+
+
+
+plt.scatter(X[y_kmeans == 0, 0], X[y_kmeans == 0, 1], s = 50, c = 'red', label = 'Cluster 1')
+
+plt.scatter(X[y_kmeans == 1, 0], X[y_kmeans == 1, 1], s = 50, c = 'blue', label = 'Cluster 2')
+
+plt.scatter(X[y_kmeans == 2, 0], X[y_kmeans == 2, 1], s = 50, c = 'green', label = 'Cluster 3')
+
+plt.scatter(X[y_kmeans == 3, 0], X[y_kmeans == 3, 1], s = 50, c = 'cyan', label = 'Cluster 4')
+
+plt.scatter(X[y_kmeans == 4, 0], X[y_kmeans == 4, 1], s = 50, c = 'magenta', label = 'Cluster 5')
+
+plt.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], s = 150, c = 'yellow', label = 'Centroids')
+
+plt.title('Clusters of CUSTOMERS')
+
+plt.xlabel('Annual Income (k$)')
+
+plt.ylabel('Spending Score (1-100)')
+
+
+plt.legend()
+
+plt.show()
+
+
+************************************************SVM  Assignment 5****************************************
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib import style
+style.use("ggplot")
+from sklearn import svm
+from sklearn.svm import SVC
+print('svm\n')
+X = np.array([[1, 2], [5, 8], [1.5, 1.8], [8, 8], [1, 0.6], [9, 11]])
+# following command is used after scikit 0.19 version to pass 1D array
+# X = X.reshape(1, -1)
+y = [0, 1, 0, 1, 0, 1]
+clf = svm.SVC(kernel='linear', C=1.0)
+clf.fit(X, y)
+print(clf.predict(X))
+w = clf.coef_[0]
+print(w)
+
+a = -w[0] / w[1]
+
+xx = np.linspace(0, 12)
+yy = a * xx - clf.intercept_[0] / w[1]
+
+h0 = plt.plot(xx, yy, 'k-', label="non weighted div")
+
+plt.scatter(X[:, 0], X[:, 1], c=y)
+plt.legend()
+plt.show()
+
+# SVC
+print('\nsvc\n')
+A = np.array([[-1, -1], [-2, -1], [1, 1], [2, 1]])
+B = np.array([1, 1, 2, 2])
+clf = SVC()
+clf.fit(A, B)
+print(clf.predict(A))
+
+
+********************************pca*********************************
+ mydata<-read.csv("C:/Users/admin/Downloads/pca_gsp.csv")
+ attach(mydata)
+ summary(mydata)
+ names(mydata)
+ X <- mydata
+ X <- cbind(Ag, Mining, Constr, Manuf, Manuf_nd, Transp, Comm, Energy, TradeW, TradeR,RE, Services, Govt)
+ X <- cbind(Ag, Mining, Constr, Manuf, Manuf_nd, Transp, Comm, Energy, TradeW, TradeR,
++            RE, Services, Govt)
+ summary(X)
+ cor(X)
+ pcal<-princomp(X, scores=TRUE, cor=TRUE)
+ summary(pcal)
+ loadings(pcal)
+ loadings(pcal)
+ plot(pcal)
+ screeplot(pcal,type="line",main="Screen Plot")
+ biplot(pcal)
+ pcal$scores[1:10,]
+
+
+***************************************linear regression assignment *****************************
+install.packages("ISLR")
+library(MASS)
+install.packages("DAAG")
+library(DAAG)
+library(nlme)
+library(ISLR)
+View(mtcars)
+lmodel<-cv.lm(data = Auto, mpg ~ cylinders + displacement + horsepower + weight + acceleration + year + origin, m=3, dots = FALSE, seed = 29, plotit = TRUE, printit = TRUE)
+lmodel<-cv.lm(data = Auto, mpg ~ cylinders + displacement + horsepower + weight + acceleration + year + origin, m=2, dots = FALSE, seed = 29, plotit = TRUE, printit = TRUE)
+lmodel<-cv.lm(data = Auto, mpg ~ cylinders + displacement + horsepower + weight + acceleration + year + origin, m=8, dots = FALSE, seed = 29, plotit = TRUE, printit = TRUE)
+
+cv.error.10 = rep (0,10)
+set.seed(17)
+
+for(i in 2:10)
+{
+  lmodel <- cv.lm(data =  Auto, mpg ~ cylinders + displacement + horsepower
+                  + weight + acceleration + year + origin, m = i , dots =
+                    + FALSE, seed=29, plotit=TRUE, printit=TRUE)
+  lmodel
+  cv.error.10[i]=attr(lmodel,"ms")
+}
+
+j<-1
+for (j in 1:10)
+{
+  # printing MS error for each value of K print(cv.error.10[j])
+}
+X=c(1,2,3,4,5,6,7,8,9,10)
+Y=cv.error.10
+
+plot(X,Y, type='l', xlab = "value of K" , ylab = "mean Square error", main = "with change in value of K there is change in Mean Square Error")
+
+********************************************market analysis*****************************************
+
+install.packages('arules')
+install.packages('arulesViz')
+library(arules)
+library(arulesViz)
+library(datasets)
+data("Groceries")
+itemFrequencyPlot(Groceries,topN=20,type="absolute")
+rules<-apriori(Groceries, parameter = list(supp=0.001, conf=0.8))
+options(digits = 2)
+inspect(rules[1:5])
+rules<-sort(rules, by="confidence", decreasing = TRUE)
+rules <- apriori(Groceries, parameter = list(supp = 0.001, conf = 0.8,maxlen=3))
+subset.matrix<-is.subset(rules,rules)
+subset.matrix[lower.tri(subset.matrix, diag = T)]<-NA
+redundant<-colSums(subset.matrix, na.rm = T)>=1
+rules.pruned<-rules[!redundant]
+rules<-rules.pruned
+rules<-apriori(data = Groceries,parameter = list(supp=0.001,conf=0.08),appearance = list(default="lhs",rhs="whole milk"),control=list(verbose=F))
+rules<-sort(rules,decreasing = TRUE, by="confidence")
+inspect(rules[1:5])
+rules<-apriori(data=Groceries, parameter=list(supp=0.001,conf = 0.15,minlen=2),appearance = list(default="rhs",lhs="whole milk"),control = list(verbose=F))
+rules<-sort(rules, decreasing=TRUE,by="confidence")
+inspect(rules[1:5])
+library(arulesViz)
+plot(rules,method="graph",engine = 'interactive',shading=NA)
+
+
+

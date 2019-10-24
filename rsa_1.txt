@@ -1,0 +1,68 @@
+#include<iostream>
+#include<math.h>
+using namespace std;
+
+int gcd(int a,int b)
+{
+	int r;
+    while(1)
+	{
+		r = b%a;
+		if (r == 0)
+			return a;
+		b = a;
+		a = r;
+    }
+}
+int main()
+{
+	int p,q,n,z,d=0,e,i,x,y;
+	double msg,c,msgback;
+	cout<<"Enter the number to be encrypted :";
+	cin>>msg;
+	cout<<"Enter first prime number :";
+	cin>>p;
+	cout<<"Enter second prime number :";
+	cin>>q;
+	n=p*q;
+	z=(p-1)*(q-1);
+	
+	cout<<"The value of Z is :" << z <<endl;
+	for(e=2;e<z;e++)
+	{
+		if (gcd(e,z)==1)
+		{
+			break;
+		}
+	}
+	cout<<"The value of E is :" << e <<endl;
+	i=1;
+	while(1)
+	{
+		int x=1+(i*z);
+		if(x%e==0)      
+		{
+		d=x/e;
+		break;
+		}
+		i++;
+	}
+	cout<<"The value of D is :" << d <<endl;
+	c=pow(msg,e);
+	c=fmod(c,n);
+	cout<<"Encrypted Message is :" << c << endl;
+	msgback = pow(c,d);
+	msgback=fmod(msgback,n);
+	cout<<"Decrypted Message is :" << msgback << endl;
+	return 0;
+}
+
+==========OUTPUT===========
+Enter the number to be encrypted :7 
+Enter first prime number :11
+Enter second prime number :3
+The value of Z is :20
+The value of E is :3
+The value of D is :7
+Encrypted Message is :13
+Decrypted Message is :7
